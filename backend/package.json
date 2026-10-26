@@ -1,0 +1,14 @@
+{
+  "name": "processor-design-studio-backend",
+  "version": "1.0.0",
+  "description": "Node.js/Express backend for the Processor Design Studio simulator",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}

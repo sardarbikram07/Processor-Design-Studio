@@ -1,0 +1,70 @@
+================================================================================
+                    PROCESSOR DESIGN STUDIO — RUN INSTRUCTIONS
+================================================================================
+
+PREREQUISITES:
+  - C++17 Compiler (GCC / MinGW / Clang / MSVC)
+  - CMake (>= 3.16)
+  - Node.js (>= 16.x) & npm
+
+--------------------------------------------------------------------------------
+OPTION A: QUICK START (RUN EXISTING BUILDS)
+--------------------------------------------------------------------------------
+
+1. RUN SIMULATOR TEST SUITE (253 TESTS)
+   In Windows PowerShell (from root project folder):
+     .\sim-core\build\test_all.exe
+
+   In Windows CMD (from root project folder):
+     sim-core\build\test_all.exe
+
+2. START BACKEND API SERVER (PORT 3001)
+   In Windows PowerShell / CMD:
+     cd backend
+     npm start
+
+3. START FRONTEND WEB DASHBOARD (PORT 5173)
+   In a NEW terminal window:
+     cd frontend
+     npm run dev
+
+--------------------------------------------------------------------------------
+OPTION B: FULL REBUILD & LAUNCH FROM SCRATCH
+--------------------------------------------------------------------------------
+
+STEP 1: REBUILD C++ SIMULATOR CORE
+  In Windows PowerShell (from root project folder):
+    cd sim-core
+    cmake -B build -G "Ninja"
+    cmake --build build --config Release
+    cd ..
+
+STEP 2: RUN TEST SUITE
+  In Windows PowerShell (from root project folder):
+    .\sim-core\build\test_all.exe
+
+STEP 3: START BACKEND API SERVER
+  In Terminal 1 (from root project folder):
+    cd backend
+    npm install
+    npm start
+
+STEP 4: START FRONTEND WEB UI
+  In Terminal 2 (from root project folder):
+    cd frontend
+    npm install
+    npm run dev
+
+  Open Browser: http://localhost:5173/
+
+================================================================================
+                              TROUBLESHOOTING
+================================================================================
+- Error: "cd backend: Cannot find path sim-core\backend"
+  Fix: Make sure your terminal prompt is in the root directory "Processor design studio"
+       before running "cd backend" or "cd frontend". If you are inside "sim-core", 
+       run "cd .." first to go back to the root folder.
+
+- Error: "bash is not recognized"
+  Fix: Do not type "bash" in PowerShell. Run the .exe files directly, or use Git Bash.
+================================================================================

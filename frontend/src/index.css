@@ -1,0 +1,446 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ── Cyberpunk / Neobrutalist Design Tokens ── */
+:root {
+  --bg-dark:       #06080d;
+  --bg-panel:      #0c1017;
+  --bg-card:       #111622;
+  --bg-card-hover: #161c2b;
+  --bg-input:      #090d14;
+
+  --neon-cyan:     #00f0ff;
+  --neon-cyan-glow:rgba(0, 240, 255, 0.25);
+  --neon-magenta:  #ff0055;
+  --neon-magenta-glow: rgba(ff, 0, 85, 0.25);
+  --neon-amber:    #ffcc00;
+  --neon-green:    #00ff66;
+  --neon-violet:   #7000ff;
+
+  --text-main:     #f0f4fc;
+  --text-sec:      #8a99b5;
+  --text-muted:    #4a576d;
+
+  --border-tech:   #1a2334;
+  --border-cyan:   #00f0ff;
+  --border-magenta:#ff0055;
+
+  --font-heading:  'Space Grotesk', sans-serif;
+  --font-mono:     'Fira Code', monospace;
+  --font-body:     'Inter', sans-serif;
+
+  --brutal-shadow: 4px 4px 0px #00f0ff;
+  --brutal-shadow-dark: 4px 4px 0px #1a2334;
+  --brutal-shadow-pink: 4px 4px 0px #ff0055;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.04) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+/* ── Custom Technical Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--border-tech); border: 1px solid var(--neon-cyan); }
+::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
+
+/* ── App Layout ── */
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ── HUD Navigation Bar ── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(12, 16, 23, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--border-tech);
+  padding: 0 2rem;
+  display: flex; align-items: center; gap: 2rem;
+  height: 68px;
+}
+
+.nav-brand {
+  display: flex; align-items: center; gap: 0.9rem;
+  font-family: var(--font-heading);
+  font-weight: 700; font-size: 1.15rem; color: var(--text-main);
+  text-decoration: none; text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav-logo-img {
+  width: 40px; height: 40px;
+  object-fit: cover;
+  border: 1px solid var(--neon-cyan);
+  box-shadow: 2px 2px 0px var(--neon-cyan);
+  filter: contrast(1.1) brightness(1.1);
+}
+
+.nav-tabs { display: flex; gap: 0.5rem; margin-left: auto; }
+
+.nav-tab {
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--border-tech);
+  background: var(--bg-panel);
+  color: var(--text-sec);
+  font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; transition: all 0.15s ease;
+  display: flex; align-items: center; gap: 0.6rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  position: relative;
+}
+.nav-tab:hover {
+  color: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.05);
+}
+.nav-tab.active {
+  background: var(--bg-card);
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  box-shadow: 3px 3px 0px var(--neon-cyan);
+}
+
+.main { flex: 1; padding: 2rem; max-width: 1440px; margin: 0 auto; width: 100%; }
+
+/* ── Cyber Brutalist Cards ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-tech);
+  padding: 1.5rem;
+  box-shadow: var(--brutal-shadow-dark);
+  position: relative;
+  transition: border-color 0.2s;
+}
+.card:hover {
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+.card-cyan {
+  border-color: var(--neon-cyan);
+  box-shadow: var(--brutal-shadow);
+}
+
+/* Corner Technical HUD Markers */
+.card::before {
+  content: '+';
+  position: absolute; top: -7px; right: -5px;
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--text-muted); pointer-events: none;
+}
+
+/* ── Typography & Headers ── */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+h1 { font-size: 1.8rem; font-weight: 700; line-height: 1.2; }
+h2 { font-size: 1.3rem; font-weight: 700; }
+h3 {
+  font-size: 0.85rem; font-weight: 700; color: var(--text-sec);
+  letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.5rem;
+}
+
+.gradient-text {
+  color: var(--text-main);
+  text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+  position: relative;
+}
+
+.neon-text-cyan { color: var(--neon-cyan); }
+.neon-text-pink { color: var(--neon-magenta); }
+.neon-text-amber { color: var(--neon-amber); }
+.neon-text-green { color: var(--neon-green); }
+
+/* ── Form Controls (Brutalist Select & Input) ── */
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem; font-weight: 600; color: var(--text-sec);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.select, .input {
+  background: var(--bg-input);
+  border: 1px solid var(--border-tech);
+  border-radius: 0px;
+  color: var(--neon-cyan);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 0.65rem 0.85rem;
+  outline: none; appearance: none;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+.select:focus, .input:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: inset 0 0 8px rgba(0, 240, 255, 0.15), 2px 2px 0px var(--neon-cyan);
+}
+.select option {
+  background: var(--bg-dark);
+  color: var(--text-main);
+}
+
+/* ── Technical Toggle Switch ── */
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.65rem 0; border-bottom: 1px dashed var(--border-tech);
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem; color: var(--text-main);
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+
+.toggle {
+  position: relative; width: 48px; height: 22px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-tech);
+  cursor: pointer; transition: all 0.15s ease;
+}
+.toggle.on {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: var(--neon-cyan);
+}
+.toggle::after {
+  content: 'OFF';
+  position: absolute; top: 2px; left: 2px;
+  width: 20px; height: 16px;
+  background: var(--text-muted);
+  color: #000; font-family: var(--font-mono); font-size: 8px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.toggle.on::after {
+  content: 'ON';
+  transform: translateX(22px);
+  background: var(--neon-cyan);
+}
+
+/* ── Buttons (Neobrutalist Cyber Action) ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--border-tech);
+  font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  cursor: pointer; transition: all 0.15s ease; text-decoration: none;
+  position: relative;
+}
+
+.btn-primary {
+  background: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  color: #04060a;
+  box-shadow: var(--brutal-shadow);
+}
+.btn-primary:hover:not(:disabled) {
+  background: #33f3ff;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #00f0ff;
+}
+
+.btn-secondary {
+  background: var(--bg-panel);
+  color: var(--text-sec);
+  border-color: var(--border-tech);
+}
+.btn-secondary:hover:not(:disabled) {
+  color: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.05);
+}
+
+.btn-pink {
+  background: var(--neon-magenta);
+  border-color: var(--neon-magenta);
+  color: #fff;
+  box-shadow: var(--brutal-shadow-pink);
+}
+.btn-pink:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--neon-magenta);
+}
+
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+/* ── Metrics Cards (HUD Display) ── */
+.metric {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  padding: 1rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-tech);
+  position: relative;
+}
+.metric::before {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+  background: var(--border-tech);
+}
+.metric.accent-cyan::before { background: var(--neon-cyan); }
+.metric.accent-pink::before { background: var(--neon-magenta); }
+.metric.accent-amber::before { background: var(--neon-amber); }
+.metric.accent-green::before { background: var(--neon-green); }
+
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: 1.4rem; font-weight: 700; color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+.metric-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem; color: var(--text-sec);
+}
+
+/* ── Pipeline Stages Grid ── */
+.pipeline-stages {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.stage {
+  padding: 1rem 0.5rem;
+  border: 1px solid var(--border-tech);
+  background: var(--bg-panel);
+  text-align: center;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.stage.active {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.04);
+  box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.08), 3px 3px 0px var(--neon-cyan);
+}
+
+.stage-name {
+  font-family: var(--font-mono);
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.stage-instr {
+  font-family: var(--font-mono);
+  font-size: 0.78rem; font-weight: 500;
+  margin-top: 0.4rem;
+  word-break: break-all;
+}
+
+/* ── Brutalist Comparison Table ── */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border-tech); }
+table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+th {
+  padding: 0.75rem 1rem; text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.68rem; font-weight: 700; color: var(--text-sec);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  background: var(--bg-panel); border-bottom: 2px solid var(--border-tech);
+}
+td {
+  padding: 0.7rem 1rem; color: var(--text-sec);
+  border-bottom: 1px solid var(--border-tech);
+  font-family: var(--font-mono);
+}
+tr:hover td { background: rgba(0, 240, 255, 0.02); color: var(--text-main); }
+
+/* ── Bar Chart ── */
+.bar-chart { display: flex; flex-direction: column; gap: 0.75rem; }
+.bar-row { display: flex; align-items: center; gap: 1rem; }
+.bar-label {
+  width: 140px; font-family: var(--font-mono); font-size: 0.75rem;
+  color: var(--text-sec); text-align: right; flex-shrink: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bar-track {
+  flex: 1; height: 18px; background: var(--bg-input);
+  border: 1px solid var(--border-tech); overflow: hidden; position: relative;
+}
+.bar-fill { height: 100%; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.bar-val {
+  font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600;
+  color: var(--text-main); width: 65px;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.25em 0.65em;
+  font-size: 0.68rem; font-weight: 600; font-family: var(--font-mono);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  border: 1px solid;
+}
+.badge-cyan   { background: rgba(0, 240, 255, 0.1);   color: var(--neon-cyan);   border-color: rgba(0, 240, 255, 0.4); }
+.badge-pink   { background: rgba(255, 0, 85, 0.1);    color: var(--neon-magenta);border-color: rgba(255, 0, 85, 0.4); }
+.badge-amber  { background: rgba(255, 204, 0, 0.1);   color: var(--neon-amber);  border-color: rgba(255, 204, 0, 0.4); }
+.badge-green  { background: rgba(0, 255, 102, 0.1);   color: var(--neon-green);  border-color: rgba(0, 255, 102, 0.4); }
+.badge-violet { background: rgba(112, 0, 255, 0.1);   color: var(--neon-violet); border-color: rgba(112, 0, 255, 0.4); }
+
+/* ── Spinner ── */
+.spinner {
+  display: inline-block; width: 14px; height: 14px;
+  border: 2px solid rgba(0, 240, 255, 0.2);
+  border-top-color: var(--neon-cyan);
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Section Header ── */
+.section-header {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-tech);
+}
+.section-icon {
+  width: 44px; height: 44px;
+  background: var(--bg-panel);
+  border: 1px solid var(--neon-cyan);
+  box-shadow: 3px 3px 0px var(--neon-cyan);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--neon-cyan);
+}
+
+/* ── Grids & Alerts ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1rem; }
+
+.divider { height: 1px; background: var(--border-tech); margin: 1.5rem 0; }
+
+.alert {
+  padding: 0.85rem 1.2rem;
+  font-family: var(--font-mono); font-size: 0.8rem;
+  border: 1px solid; display: flex; align-items: center; gap: 0.75rem;
+}
+.alert-error { background: rgba(255, 0, 85, 0.1); border-color: var(--neon-magenta); color: var(--neon-magenta); }
+.alert-success { background: rgba(0, 255, 102, 0.1); border-color: var(--neon-green); color: var(--neon-green); }
+.alert-info { background: rgba(0, 240, 255, 0.1); border-color: var(--neon-cyan); color: var(--neon-cyan); }
+
+.fade-in { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 868px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .nav-tabs { display: none; }
+}

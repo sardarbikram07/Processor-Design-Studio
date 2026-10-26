@@ -1,0 +1,158 @@
+================================================================================
+          PROCESSOR DESIGN STUDIO — PROFESSOR DEMONSTRATION & TEST CASES
+================================================================================
+
+This guide provides 5 step-by-step test cases to demonstrate your Processor 
+Design Studio project in front of your professor. Follow these exact steps and 
+use the explanation scripts provided for each test case.
+
+--------------------------------------------------------------------------------
+PREREQUISITES FOR DEMONSTRATION:
+1. Ensure the project is running:
+   - Backend API:  http://localhost:3001
+   - Frontend UI:   http://localhost:5173
+2. Open http://localhost:5173 in Google Chrome / Edge.
+
+================================================================================
+TEST CASE 1: DATA FORWARDING VS HAZARD STALLING (PIPELINE UNIT)
+================================================================================
+GOAL:
+  Demonstrate how hardware data forwarding paths eliminate Read-After-Write (RAW) 
+  hazards and boost CPU performance (lowering CPI).
+
+STEP-BY-STEP ACTIONS IN FRONT OF PROFESSOR:
+  1. Open the "Config Builder" tab on the web UI.
+  2. Select Benchmark: "hazard_heavy.asm"
+  3. Turn Pipeline ON.
+  4. Experiment A (No Forwarding):
+     - Uncheck "Data Forwarding" (Forwarding = OFF)
+     - Keep "Hazard Stalling" checked (Stalling = ON)
+     - Click "RUN SIMULATION"
+     - NOTE THE CPI: ~2.384 (Stall Cycles: ~36)
+  5. Experiment B (With Forwarding):
+     - Check "Data Forwarding" (Forwarding = ON)
+     - Click "RUN SIMULATION"
+     - NOTE THE CPI: ~1.307 (Stall Cycles drops drastically to ~10)
+  6. Click "View Pipeline Trace" to jump to the Pipeline Visualizer tab.
+     - Step through Cycles 4 to 6 to show the EX/MEM -> EX bypass line.
+
+WHAT TO SAY TO YOUR PROFESSOR:
+  "Professor, in Test Case 1, we demonstrate our 5-stage pipeline hazard unit.
+   When Data Forwarding is OFF, consecutive Read-After-Write instructions 
+   insert bubble stalls into the EX stage, inflating the CPI to 2.384. 
+   When we enable Data Forwarding, bypass paths route result values directly 
+   from the EX/MEM and MEM/WB latches back into the ALU inputs, reducing stalls 
+   and improving CPI by over 45% down to 1.307."
+
+
+================================================================================
+TEST CASE 2: CACHE ASSOCIATIVITY & REPLACEMENT POLICIES (MEMORY UNIT)
+================================================================================
+GOAL:
+  Demonstrate L1 Cache hit rates scaling across Direct-Mapped vs Set-Associative 
+  configurations with LRU eviction.
+
+STEP-BY-STEP ACTIONS IN FRONT OF PROFESSOR:
+  1. Go to "Config Builder" tab.
+  2. Select Benchmark: "array_sum.asm" or "bubble_sort.asm"
+  3. Experiment A (Direct-Mapped Small Cache):
+     - Cache Size: 1 KB
+     - Block Size: 16 B
+     - Associativity: 1 (Direct Mapped)
+     - Replacement: LRU
+     - Click "RUN SIMULATION" -> Note Cache Hit Rate (~75% - 81%)
+  4. Experiment B (4-Way Set Associative Cache):
+     - Cache Size: 4 KB
+     - Block Size: 64 B
+     - Associativity: 4-Way
+     - Replacement: LRU
+     - Click "RUN SIMULATION" -> Note Cache Hit Rate increases to >92%
+
+WHAT TO SAY TO YOUR PROFESSOR:
+  "In Test Case 2, we explore our configurable L1 Data Cache hierarchy. 
+   With a 1KB direct-mapped cache, memory accesses experience conflict 
+   misses whenever multiple array elements hash to the same cache line index. 
+   By expanding to a 4KB 4-way set-associative cache with LRU replacement, 
+   the cache preserves active loop indices and spatial block locality, 
+   driving our hit rate above 92%."
+
+
+================================================================================
+TEST CASE 3: BRANCH PREDICTOR SOPHISTICATION (CONTROL FLOW UNIT)
+================================================================================
+GOAL:
+  Demonstrate dynamic 2-bit saturating counter branch prediction vs static schemes.
+
+STEP-BY-STEP ACTIONS IN FRONT OF PROFESSOR:
+  1. Go to "Config Builder" tab.
+  2. Select Benchmark: "loop_sum.asm" or "matrix_multiply.asm"
+  3. Experiment A:
+     - Branch Predictor Strategy: STATIC_TAKEN
+     - Click "RUN SIMULATION" -> Note Misprediction Rate
+  4. Experiment B:
+     - Branch Predictor Strategy: TWO_BIT_SATURATING
+     - Click "RUN SIMULATION" -> Note Misprediction Rate drops significantly
+
+WHAT TO SAY TO YOUR PROFESSOR:
+  "In Test Case 3, we evaluate dynamic branch prediction algorithms. 
+   Static prediction ('Always Taken') incurs flush penalties on loop exit branch 
+   evaluations. Our 2-Bit Saturating Counter uses a 4-state hysteresis state 
+   machine (Strongly/Weakly Taken/Not-Taken) which absorbs inner-loop branch 
+   transitions without thrashing, resulting in superior prediction accuracy."
+
+
+================================================================================
+TEST CASE 4: FUNCTIONAL VS PIPELINED ARCHITECTURAL FIDELITY
+================================================================================
+GOAL:
+  Demonstrate single-cycle functional baseline execution vs 5-stage cycle-accurate 
+  pipelined simulation.
+
+STEP-BY-STEP ACTIONS IN FRONT OF PROFESSOR:
+  1. Go to "Config Builder" tab.
+  2. Select Benchmark: "factorial.asm"
+  3. Experiment A (Functional Mode):
+     - Uncheck "Enable Pipelining" (Functional mode)
+     - Click "RUN SIMULATION" -> Total Cycles == Instructions Executed (CPI = 1.000)
+  4. Experiment B (Pipelined Mode):
+     - Check "Enable Pipelining"
+     - Click "RUN SIMULATION" -> Total Cycles = Instructions + Pipeline Fill + Hazards
+
+WHAT TO SAY TO YOUR PROFESSOR:
+  "In Test Case 4, we compare our functional baseline against 5-stage pipelining. 
+   In functional mode, every instruction completes in a single cycle (ideal CPI = 1.0). 
+   In pipelined mode, our cycle-accurate engine models pipeline latency, 
+   fill penalties, and hazard delays."
+
+
+================================================================================
+TEST CASE 5: OPENMP PARALLEL SWEEP & AMDAHL'S LAW SPEEDUP
+================================================================================
+GOAL:
+  Demonstrate multi-threaded OpenMP sweep execution and parallel speedup scaling.
+
+STEP-BY-STEP ACTIONS IN FRONT OF PROFESSOR:
+  1. Go to "Comparison Dashboard" tab.
+  2. Select "OpenMP Parallel" execution mode button.
+  3. Click "RUN FULL PARAMETER SWEEP".
+  4. Show the live telemetry graphs and table showing 150+ configurations evaluated.
+
+WHAT TO SAY TO YOUR PROFESSOR:
+  "Finally, in Test Case 5, we demonstrate our OpenMP parallel sweep runner. 
+   Instead of running architecture parameter grid sweeps sequentially, 
+   our C++ core distributes independent CPU configurations across physical cores 
+   using #pragma omp parallel for. As documented in our report (REPORT.md), 
+   we measured an empirical speedup of 1.48x on 2 threads and identified the 
+   serial fraction (s ≈ 35.1%) attributable to I/O and JSON aggregation per 
+   Amdahl's Law."
+
+================================================================================
+                           SUMMARY CHEAT SHEET FOR PRESENTATION
+================================================================================
+• ISA: 32-bit custom RISC (19 instructions, 16 registers: $r0 hardwired to 0, $r15 RA)
+• Pipeline: 5-Stage (IF, ID, EX, MEM, WB) with forwarding & hazard detection
+• Cache: Configurable L1 (Size, Block Size, Associativity, LRU/FIFO/Random)
+• Predictors: Static (Taken/Not-Taken), Dynamic (1-bit, 2-bit Saturating)
+• Acceleration: C++17 OpenMP multithreaded sweep engine
+• Automated Verification: 253 / 253 Unit & Integration Tests Passed (100%)
+================================================================================
